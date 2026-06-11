@@ -100,30 +100,38 @@ function toggle(){
 }
 
 function login(){
-    let user = document.getElementById("user").value;
-    let pass = document.getElementById("pass").value;
+  let user = document.getElementById("user").value.trim();
+  let pass = document.getElementById("pass").value.trim();
 
-    // أدمن ثابت
-    if(user === "admin" && pass === "1234"){
-        localStorage.setItem("role","admin");
-        window.location.href = "admin.html";
-        return;
-    }
+  // ❗ منع الفراغات
+  if(user === "" || pass === ""){
+    alert("لازم تكتب اسم المستخدم وكلمة المرور");
+    return;
+  }
 
-    if(isLogin){
-        let found = users.find(u => u.user === user && u.pass === pass);
+  // أدمن ثابت
+  if(user === "admin" && pass === "1234"){
+    localStorage.setItem("role","admin");
+    window.location.href = "admin.html";
+    return;
+  }
 
-        if(found){
-            localStorage.setItem("role","client");
-            window.location.href = "index.html";
-        } else {
-            alert("بيانات غير صحيحة");
-        }
+  if(isLogin){
+    let found = users.find(u => u.user === user && u.pass === pass);
+
+    if(found){
+      localStorage.setItem("role","client");
+      window.location.href = "index.html";
     } else {
-        users.push({user, pass});
-        localStorage.setItem("users", JSON.stringify(users));
-        alert("تم إنشاء الحساب");
+      alert("خطأ في البيانات");
     }
+
+  } else {
+    // إنشاء حساب
+    users.push({user, pass});
+    localStorage.setItem("users", JSON.stringify(users));
+    alert("تم إنشاء الحساب");
+  }
 }
 </script>
 
