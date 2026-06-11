@@ -1,2 +1,0 @@
-# chocolate-project
-Chocolate 
