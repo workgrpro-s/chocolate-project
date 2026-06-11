@@ -1,22 +1,45 @@
-<input id="code" placeholder="كلمة السر">
+<h2>تسجيل الدخول</h2>
+
+<input id="email" placeholder="الإيميل">
+<input id="password" type="password" placeholder="كلمة المرور">
+
 <button onclick="login()">دخول</button>
 
-<script>
-function login() {
-  let code = document.getElementById("code").value;
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword } 
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-  // دخول العميل
-  if(code === "1234") {
-    window.location.href = "index.html";
-  }
+const firebaseConfig = {
+  apiKey: "AIzaSyAqHdvZX8QdoRwl-qKgvEzsT4iTb8xTKcw",
+  authDomain: "chocolate-project-ae8d6.firebaseapp.com",
+  projectId: "chocolate-project-ae8d6",
+  storageBucket: "chocolate-project-ae8d6.firebasestorage.app",
+  messagingSenderId: "444445413728",
+  appId: "1:444445413728:web:bbea86d01730a010050e05",
+  
+};
 
-  // دخول الأدمن
-  else if(code === "admin") {
-    window.location.href = "admin.html";
-  }
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
-  else {
-    alert("كلمة السر غلط");
-  }
-}
+window.login = function() {
+  let email = document.getElementById("email").value;
+  let password = document.getElementById("password").value;
+
+  signInWithEmailAndPassword(auth, email, password)
+  .then((userCredential) => {
+
+    const email = userCredential.user.email;
+
+    if(email === "admin@gmail.com") {
+      window.location.href = "admin.html";
+    } else {
+      window.location.href = "index.html";
+    }
+
+  })
+  .catch((error) => {
+    alert(error.message);
+  });
 </script>
