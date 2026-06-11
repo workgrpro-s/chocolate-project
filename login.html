@@ -103,13 +103,13 @@ function login(){
   let user = document.getElementById("user").value.trim();
   let pass = document.getElementById("pass").value.trim();
 
-  // ❗ منع الفراغات
+  
   if(user === "" || pass === ""){
-    alert("لازم تكتب اسم المستخدم وكلمة المرور");
+    alert("لابد من كتابة اسم المستخدم وكلمة المرور");
     return;
   }
 
-  // أدمن ثابت
+  
   if(user === "admin" && pass === "1234"){
     localStorage.setItem("role","admin");
     window.location.href = "admin.html";
@@ -125,6 +125,16 @@ function login(){
     } else {
       alert("خطأ في البيانات");
     }
+
+      } else {
+    // 🟢 إنشاء حساب (مع منع التكرار والفراغ)
+    let exists = users.find(u => u.user === user);
+
+    if(exists){
+      alert("اسم المستخدم موجود مسبقًا");
+      return;
+    }
+
 
   } else {
     // إنشاء حساب
