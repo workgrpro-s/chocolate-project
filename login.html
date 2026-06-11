@@ -1,45 +1,108 @@
-<h2>تسجيل الدخول</h2>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>تسجيل الدخول</title>
 
-<input id="email" placeholder="الإيميل">
-<input id="password" type="password" placeholder="كلمة المرور">
+<style>
+body{
+  font-family: Arial;
+  background:#222;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  color:white;
+}
+
+.box{
+  background:#333;
+  padding:20px;
+  border-radius:12px;
+  width:300px;
+}
+
+input{
+  width:100%;
+  padding:10px;
+  margin:8px 0;
+  border:none;
+  border-radius:6px;
+}
+
+button{
+  width:100%;
+  padding:10px;
+  background:#4CAF50;
+  color:white;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+.switch{
+  margin-top:10px;
+  text-align:center;
+  color:#00aaff;
+  cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+<h2 id="title">تسجيل دخول</h2>
+
+<input id="user" placeholder="اسم المستخدم">
+<input id="pass" type="password" placeholder="كلمة المرور">
 
 <button onclick="login()">دخول</button>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword } 
-from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+<div class="switch" onclick="toggle()">
+تبديل (تسجيل / إنشاء حساب)
+</div>
+</div>
 
-const firebaseConfig = {
-  apiKey: "AIzaSyAqHdvZX8QdoRwl-qKgvEzsT4iTb8xTKcw",
-  authDomain: "chocolate-project-ae8d6.firebaseapp.com",
-  projectId: "chocolate-project-ae8d6",
-  storageBucket: "chocolate-project-ae8d6.firebasestorage.app",
-  messagingSenderId: "444445413728",
-  appId: "1:444445413728:web:bbea86d01730a010050e05",
-  
-};
+<script>
+let isLogin = true;
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+let users = JSON.parse(localStorage.getItem("users")) || [];
 
-window.login = function() {
-  let email = document.getElementById("email").value;
-  let password = document.getElementById("password").value;
+function toggle(){
+  isLogin = !isLogin;
+  document.getElementById("title").innerText =
+    isLogin ? "تسجيل دخول" : "إنشاء حساب";
+}
 
-  signInWithEmailAndPassword(auth, email, password)
-  .then((userCredential) => {
+function login(){
+  let user = document.getElementById("user").value;
+  let pass = document.getElementById("pass").value;
 
-    const email = userCredential.user.email;
+  // أدمن ثابت
+  if(user === "admin" && pass === "1234"){
+    localStorage.setItem("role","admin");
+    window.location.href = "admin.html";
+    return;
+  }
 
-    if(email === "admin@gmail.com") {
-      window.location.href = "admin.html";
-    } else {
+  if(isLogin){
+    let found = users.find(u => u.user === user && u.pass === pass);
+
+    if(found){
+      localStorage.setItem("role","client");
       window.location.href = "index.html";
+    } else {
+      alert("خطأ في البيانات");
     }
 
-  })
-  .catch((error) => {
-    alert(error.message);
-  });
+  } else {
+    users.push({user, pass});
+    localStorage.setItem("users", JSON.stringify(users));
+    alert("تم إنشاء الحساب");
+  }
+}
 </script>
+
+</body>
+</html>
