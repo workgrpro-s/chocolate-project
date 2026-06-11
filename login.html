@@ -1,38 +1,14 @@
-<h2>تسجيل الدخول</h2>
+<input id="code" placeholder="كلمة السر">
+<button onclick="go()">دخول</button>
 
-<input id="email" placeholder="الإيميل">
-<input id="password" type="password" placeholder="كلمة المرور">
+<script>
+function go() {
+  let code = document.getElementById("code").value;
 
-<button onclick="login()">دخول</button>
-
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword } 
-from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyAqHdvZX8QdoRwl-qKgvEzsT4iTb8xTKcw",
-  authDomain: "chocolate-project-ae8d6.firebaseapp.com",
-  projectId: "chocolate-project-ae8d6",
-  storageBucket: "chocolate-project-ae8d6.firebasestorage.app",
-  messagingSenderId: "444445413728",
-  appId: "1:444445413728:web:bbea86d01730a010050e05",
-  measurementId: "G-QBQ6BNP0XN"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-
-window.login = function() {
-  let email = document.getElementById("email").value;
-  let password = document.getElementById("password").value;
-
-  signInWithEmailAndPassword(auth, email, password)
-    .then(() => {
-      window.location.href = "index.html";
-    })
-    .catch((error) => {
-      alert("خطأ في الدخول: " + error.message);
-    });
+  if(code === "1234") {
+    window.location.href = "index.html";
+  } else {
+    alert("خطأ");
+  }
 }
 </script>
